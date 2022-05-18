@@ -8,6 +8,11 @@
       list: installed
     register: result
 
+  - name: write host ip to file
+    copy:
+      content: "{{ ansible_ssh_host }}"
+      dest: "InstalledSoftwares.xlsx"
+      
   - name: write lines to file
     copy:
       content: "{{ result }}"
