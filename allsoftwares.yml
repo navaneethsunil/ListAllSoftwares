@@ -11,11 +11,11 @@
   - name: write lines to file
     copy:
       content: "{{ result }}"
-      dest: "InstalledSoftwares.xlsx"
+      dest: "InstalledSoftwares.txt"
       
   - name: line insert
     lineinfile:
-      path: "InstalledSoftwares.xlsx"
+      path: "InstalledSoftwares.txt"
       line: "{{ ansible_ssh_host }}"
       insertbefore: BOF
 
