@@ -3,8 +3,6 @@
   hosts: 192.168.56.102
 
   tasks:
-  - name: add host address to list of softwares
-    command: "{{ ansible_ssh_host }}" > InstalledSoftwares.xlsx
 
   - name: add list of all programs installed
     command: yum list installed > InstalledSoftwares.xlsx
