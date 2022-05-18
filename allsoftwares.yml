@@ -14,4 +14,4 @@
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.xlsx"
 
   - debug:
-        msg: "List of all programs on host has been created."
+        msg: "List of all programs on host has been created in home directory."
