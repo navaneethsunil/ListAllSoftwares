@@ -3,15 +3,15 @@
   hosts: 192.168.56.102
 
   tasks:
-  - name: List ansible packages and register result to print with debug later
+  - name: List all software into the result variable
     yum:
       list: installed
     register: result
       
-  - name: write lines to file
+  - name: writes aboe list to file
     copy:
       content: "{{ result }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.xlsx"
 
   - debug:
-        msg: "List of all programs on host has been created in home directory."
+        msg: "List of all programs on the host has been created in the home directory."
