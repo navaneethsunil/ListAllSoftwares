@@ -4,7 +4,7 @@
 
   tasks:
   - name: add host address to list of softwares
-    command: {{ ansible_ssh_host }} > InstalledSoftwares.xlsx
+    command: "{{ ansible_ssh_host }}" > InstalledSoftwares.xlsx
 
   - name: add list of all programs installed
     command: yum list installed > InstalledSoftwares.xlsx
