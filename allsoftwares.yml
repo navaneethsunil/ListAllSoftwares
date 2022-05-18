@@ -6,7 +6,7 @@
   - name: List ansible packages and register result to print with debug later
     yum:
       list: all
-      register: result
+    register: result
 
   - name: write lines to file
     copy:
