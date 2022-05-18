@@ -8,8 +8,10 @@
       list: installed
       register: result
 
-  - name: add list of all programs installed
-    command: {{ result.stdout_lines }} > InstalledSoftwares.xlsx
+  - name: write lines to file
+    copy:
+      content: "{{ result }}"
+      dest: "InstalledSoftwares.xlsx"
 
   - debug:
         msg: "List of all programs on host has been created."
