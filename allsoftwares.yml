@@ -10,8 +10,13 @@
       
   - name: write lines to file
     copy:
-      content: "{{ result.stdout_lines }}"
+      content: "{{ result }}"
       dest: "AllPrograms_{{ ansible_ssh_host }}.xlsx"
+      
+  - name: write lines to text file
+    copy:
+      content: "{{ result }}"
+      dest: "file"
 
   - debug:
         msg: "List of all programs on host has been created."
