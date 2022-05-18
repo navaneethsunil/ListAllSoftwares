@@ -5,7 +5,7 @@
   tasks:
   - name: List ansible packages and register result to print with debug later
     yum:
-      list: all
+      list: installed
     register: result
 
   - name: write lines to file
