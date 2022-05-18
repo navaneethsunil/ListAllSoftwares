@@ -10,8 +10,14 @@
       
   - name: write lines to file
     copy:
-      content: "{{ ansible_ssh_host }} {{ result }}"
+      content: "{{ result }}"
       dest: "InstalledSoftwares.xlsx"
+      
+  - name: line insert
+    lineinfile:
+      path: "InstalledSoftwares.xlsx"
+      line: "{{ ansible_ssh_host }}"
+      insertbefore: BOF
 
   - debug:
         msg: "List of all programs on host has been created."
