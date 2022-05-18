@@ -10,7 +10,7 @@
       
   - name: write lines to file
     copy:
-      content: "{{ result.name }}"
+      content: "{{ result.results.name }}"
       dest: "AllPrograms_{{ ansible_ssh_host }}.xlsx"
 
   - debug:
