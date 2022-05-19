@@ -7,15 +7,18 @@
     yum:
       list: installed
     register: result
-
-  - name: var=item
-    with_items: "{{ result |json_query('results[*].name') }}"
-    vars:
-      jsonquery: "results[?name=='tar'].version"
     
+  - name: line insert
+    lineinfile:
+      path: Input.txt
+      line: "{{ item.name }} {{ item.version}}"
+      insertbefore: EOF
+    with_items:
+    - "{{ result.results }}"
+
   - name: writes aboe list to file
     copy:
-      content: "{{ x }}"
+      content: "{{ result }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
