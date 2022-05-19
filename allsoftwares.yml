@@ -4,7 +4,12 @@
 
   tasks:
   - name: List all software into the result variable
-    command: yum list installed > "SoftwareListOn_{{ ansible_ssh_host }}.txt"
+    command: yum list installed
+    register: result
 
+  - name: line insert
+    copy:
+      content: "{{ result }}"
+      dest: "SoftwareListOn_{{ ansible_ssh_host }}.txt"
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
