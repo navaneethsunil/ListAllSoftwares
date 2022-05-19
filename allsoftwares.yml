@@ -9,7 +9,7 @@
     register: software
 
   - name: line insert
-    with_items: "{{ software | json_query('results[*].name') | software | json_query('results[*].version')  }}"
+    with_items: "{{ software | json_query('results[*].name') || software | json_query('results[*].version')  }}"
     lineinfile:
       path: "hellothere.txt"
       line: "{{ item }}"
