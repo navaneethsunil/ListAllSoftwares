@@ -9,16 +9,11 @@
     register: software
 
   - name: line insert
-    with_items: "{{ software | json_query('results[*].name') || software | json_query('results[*].version')  }}"
-    lineinfile:
-      path: "hellothere.txt"
-      line: "{{ item }}"
-      insertbefore: BOF
-
-
-  - name: writes aboe list to file
+    with_items: "{{ software | json_query('results[*].name') }}"
+    vars:
+      softwarelisting: "{{ softwarelisting }} {{item}}"
     copy:
-      content: "{{ software }}"
+      content: "{{ softwarelisting }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
