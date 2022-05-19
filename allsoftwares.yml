@@ -1,23 +1,18 @@
 ---
 - name: Encrypt/Decrypt String
   hosts: 192.168.56.102
-  vars:
-    listofsoftware: ""
 
   tasks:
   - name: List all software into the result variable
     yum:
       list: installed
     register: software
-    
-  - name: append contents into a variable
-    listofsoftware: "{{ listofsoftware }}{{ item }}"
-    with_items: "{{ software | json_query('results[*].name') }}"
-    
+
   - name: line insert
+    with_items: "{{ software | json_query('results[*].name') }}"
     lineinfile:
-      path: Input.txt
-      line: "{{ listofsoftware }}"
+      path: "hellothere.txt"
+      line: "{{ item }}"
       insertbefore: BOF
 
 
