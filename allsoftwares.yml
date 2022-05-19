@@ -13,7 +13,9 @@
       path: Input.txt
       line: "{{ item }}"
       insertbefore: BOF
-    with_items: "{{ software | json_query('results[*].name') }}"
+    with_items: "{{ software | json_query(jsonquery) }}"
+    vars:
+      jsonquery: "results[*].name"
 
   - name: writes aboe list to file
     copy:
