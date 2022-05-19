@@ -1,6 +1,8 @@
 ---
 - name: Encrypt/Decrypt String
   hosts: 192.168.56.102
+  vars:
+    listofsoftware: ""
 
   tasks:
   - name: List all software into the result variable
@@ -8,14 +10,16 @@
       list: installed
     register: software
     
+  - name: append contents into a variable
+    listofsoftware: "{{ listofsoftware }}{{ item }}"
+    with_items: "{{ software | json_query('results[*].name') }}"
+    
   - name: line insert
     lineinfile:
       path: Input.txt
-      line: "{{ item }}"
+      line: "{{ listofsoftware }}"
       insertbefore: BOF
-    with_items: "{{ software | json_query(jsonquery) }}"
-    vars:
-      jsonquery: "results[*].name"
+
 
   - name: writes aboe list to file
     copy:
