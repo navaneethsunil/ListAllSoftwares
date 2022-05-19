@@ -8,8 +8,10 @@
       list: installed
     register: result
 
-  - name: var=item
-    with_items: "{{ result | json_query('results[*].name') }}"
+  - debug: var=item
+    with_items: "{{ result |json_query('results[*].name') }}"
+    vars:
+      jsonquery: "results[?name=='tar'].version" 
 
   - name: writes aboe list to file
     copy:
