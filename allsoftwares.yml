@@ -8,14 +8,13 @@
       list: installed
     register: result
 
-  - debug: var=item
+  - name: var=item
     with_items: "{{ result |json_query('results[*].name') }}"
-    vars:
-      jsonquery: "results[?name=='tar'].version" 
+    register: x
 
   - name: writes aboe list to file
     copy:
-      content: "{{ json_query }}"
+      content: "{{ x }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
