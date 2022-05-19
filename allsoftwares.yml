@@ -8,18 +8,18 @@
       list: installed
     register: software
     
-  - name: Initialize an empty list for our strings
+  - name: Initialize empty lists to store software names and versions
     set_fact:
       snames: []
       sversions: []
 
-  - name: line insert
+  - name: add software names and versions to above mentioned lists
     with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
       sversions: "{{ sversions + [ item.version ] }}"
     
-  - name: copy content to file
+  - name: combine name and version list and write into csv file
     copy:
       content: "{{ snames | zip(sversions) | map('join', ', ')  | join('\n') }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
