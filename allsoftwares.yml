@@ -11,7 +11,7 @@
   - name: line insert
     with_items: "{{ software | json_query('results[*].name') }}"
     vars:
-      printvari: "{{ softwarelisting }} {{ item }}"
+      printvari: "{{ item }}"
     copy:
       content: "{{ printvar }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
