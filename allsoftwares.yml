@@ -7,10 +7,13 @@
     yum:
       list: installed
     register: result
-      
+
+  - name: var=item
+    with_items: "{{ result | json_query('results[*].name') }}"
+
   - name: writes aboe list to file
     copy:
-      content: "{{ result }}"
+      content: "{{ json_query }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
