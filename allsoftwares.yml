@@ -11,10 +11,9 @@
   - name: line insert
     lineinfile:
       path: Input.txt
-      line: "{{ item.results }}"
+      line: "{{ item }}"
       insertbefore: BOF
-    with_items:
-    - "{{ software }}"
+    with_items: "{{ software | json_query('results[*].name') }}"
 
   - name: writes aboe list to file
     copy:
