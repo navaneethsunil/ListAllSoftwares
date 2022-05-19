@@ -22,7 +22,7 @@
   - name: copy content to file
     copy:
       content: "{{ snames | zip(sversions) | map('join', ', ')  | join('\n') }}"
-      dest: "output.csv"
+      dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
