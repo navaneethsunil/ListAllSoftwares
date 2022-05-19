@@ -1,8 +1,6 @@
 ---
 - name: Encrypt/Decrypt String
   hosts: 192.168.56.102
-  vars:
-    printvari: ""
 
   tasks:
   - name: List all software into the result variable
@@ -15,7 +13,7 @@
     vars:
       printvari: "{{ item }}"
     copy:
-      content: "{{ printvar }}"
+      content: "{{ printvari }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
