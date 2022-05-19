@@ -11,7 +11,7 @@
   - name: line insert
     lineinfile:
       path: Input.txt
-      line: {{ item.results }}
+      line: "{{ item.results }}"
       insertbefore: BOF
     with_items:
     - "{{ software }}"
