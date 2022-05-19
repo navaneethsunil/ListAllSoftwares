@@ -1,17 +1,28 @@
 ---
 - name: Encrypt/Decrypt String
   hosts: 192.168.56.102
-  vars:
-    result: ""
 
   tasks:
   - name: List all software into the result variable
-    command: yum list installed
-    register: result
+    yum:
+      list: installed
+    register: software
+    
+  - name: Initialize an empty list for our strings
+    set_fact:
+      snames: []
+      sversions: []
 
   - name: line insert
+    with_items: "{{ software | json_query('results[*]') }}"
+    set_fact:
+      snames: "{{ snames + [ item.name ] }}"
+      sversions: "{{ sversions + [ item.version ] }}"
+    
+  - name: copy content to file
     copy:
-      content: "{{ result }}"
-      dest: "SoftwareListOn_{{ ansible_ssh_host }}.txt"
+      content: "{{ snames }}"
+      dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
+
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
