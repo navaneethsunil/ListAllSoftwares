@@ -11,7 +11,7 @@
   - name: writes aboe list to file
     copy:
       content: "{{ result }}"
-      dest: "SoftwareListOn_{{ ansible_ssh_host }}.xlsx"
+      dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
