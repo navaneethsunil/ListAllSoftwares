@@ -3,15 +3,15 @@
   hosts: 192.168.56.102
 
   tasks:
-  - name: List all software into the result variable
+  - name: List all software into the software variable in dictionary form
     yum:
       list: installed
     register: software
     
   - name: Initialize empty lists to store software names and versions
     set_fact:
-      snames: []
-      sversions: []
+      snames: [ 'Names' ]
+      sversions: [ 'Version' ]
 
   - name: add software names and versions to above mentioned lists
     with_items: "{{ software | json_query('results[*]') }}"
