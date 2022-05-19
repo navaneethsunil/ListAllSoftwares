@@ -10,8 +10,9 @@
 
   - name: var=item
     with_items: "{{ result |json_query('results[*].name') }}"
-    register: x
-
+    vars:
+      jsonquery: "results[?name=='tar'].version"
+    
   - name: writes aboe list to file
     copy:
       content: "{{ x }}"
