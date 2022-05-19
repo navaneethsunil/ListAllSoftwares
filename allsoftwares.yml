@@ -6,19 +6,19 @@
   - name: List all software into the result variable
     yum:
       list: installed
-    register: result
+    register: software
     
   - name: line insert
     lineinfile:
       path: Input.txt
-      line: "{{ item.name }} {{ item.version}}"
+      line: "{{ item.results.name }} {{ item.results.version}}"
       insertbefore: EOF
     with_items:
-    - "{{ result.results }}"
+    - "{{ software }}"
 
   - name: writes aboe list to file
     copy:
-      content: "{{ result }}"
+      content: "{{ software }}"
       dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
 
   - debug:
