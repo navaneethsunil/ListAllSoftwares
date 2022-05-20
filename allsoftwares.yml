@@ -40,7 +40,7 @@
   - name: write list of softwares into excel files
     delegate_to: 192.168.1.41
     copy:
-      content: "{{ list_var1 }}"
+      content: "{{ list_var1 | join('\n') }}"
       dest: "SoftwareList.csv"
 
   - debug:
