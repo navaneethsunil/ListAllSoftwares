@@ -18,7 +18,7 @@
     with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
-      shost: "{{ shost + [ ansible_ssh_host ] }}"
+      shost: "{{ shost + hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
       sversions: "{{ sversions + [ item.version ] }}"
     
   - name: combine name and version list and write into csv file on control node delegrate_to
