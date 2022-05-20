@@ -8,24 +8,20 @@
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
       shost: [ 'Host IP' ]
-      solist: []
 
   - name: List all software into the software variable in dictionary form
     yum:
       list: installed
     register: software
-    set_facts:
-      solist: "{{ solist + [ software ] }}"
 
-  - with_x: "{{ solist }}"
-    with_items: "{{ x | json_query('results[*]') }}"
+  - name: add name, host ip and version to lists 
+    with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
       shost: "{{ shost + [ ansible_ssh_host ] }}"
       sversions: "{{ sversions + [ item.version ] }}"
 
   - name: combine name and version list and write into csv file on control node delegrate_to
-    delegate_to: 192.168.56.102
     copy:
       content: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
       dest: "SoftwareList.csv"
