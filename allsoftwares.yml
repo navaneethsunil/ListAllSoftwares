@@ -1,19 +1,18 @@
 ---
 - name: Encrypt/Decrypt String
   hosts: all
+  set_fact:
+    snames: [ 'Names' ]
+    sversions: [ 'Version' ]
+    shost: [ 'Host IP' ]
 
   tasks:
-  - name: Initialize empty lists to store software names, host ip, and versions
-    set_fact:
-      snames: [ 'Names' ]
-      sversions: [ 'Version' ]
-      shost: [ 'Host IP' ]
-
   - name: List all software into the software variable in dictionary form
     yum:
       list: installed
     register: software
-    with_items: "{{ software | json_query('results[*]') }}"
+    
+  - with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
         snames: "{{ snames + [ item.name ] }}"
         shost: "{{ shost + [ ansible_ssh_host ] }}"
