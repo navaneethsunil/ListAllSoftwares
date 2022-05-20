@@ -15,7 +15,7 @@
     set_fact:
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
-      shost: [ 'Host IP' ]
+      shost: [ '\\nHost IP' ]
 
   - name: List all software into the software variable in dictionary form
     yum:
