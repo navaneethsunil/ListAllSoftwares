@@ -12,11 +12,13 @@
     set_fact:
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
+      shost: [ 'Host IP' ]
 
   - name: add software names and versions to above mentioned lists
     with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
+      shost: "{{ shost + [ ansible_ssh_host ] }}"
       sversions: "{{ sversions + [ item.version ] }}"
     
   - name: combine name and version list and write into csv file
