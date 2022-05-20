@@ -37,7 +37,7 @@
     delegate_to: 192.168.1.41
     copy:
       content: "{{ uuids }}"
-      dest: "SoftwareList.csv"
+      dest: "{{ ansible_ssh_host }}.csv"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
