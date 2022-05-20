@@ -24,7 +24,7 @@
   - name: Register remote linux host with variable
     add_host:
         name: "192.168.1.41"
-        VAR_NEW: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
+        VAR_NEW: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
 
 - name: List all Softwares
   hosts: 192.168.1.41
