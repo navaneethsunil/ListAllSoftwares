@@ -15,7 +15,7 @@
     set_fact:
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
-      shost: [ '\nHost IP' ]
+      shost: [ 'Host IP' ]
 
   - name: List all software into the software variable in dictionary form
     yum:
@@ -32,7 +32,7 @@
   - name: combine name, host ip, and version list into one variable
     set_fact:
         uuid: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
-
+        uuid: "{{ join('\n') }}"
   - name: write list of softwares into excel files
     delegate_to: 192.168.1.41
     copy:
