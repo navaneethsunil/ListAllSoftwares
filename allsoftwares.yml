@@ -31,9 +31,10 @@
       
   - name: combine name, host ip, and version list into one variable
     set_fact:
-        uuids: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
+        uuid: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
         
   - name: write list of softwares into excel files
+    delegate_to: 192.168.1.41
     copy:
       content: "{{ uuids }}"
       dest: "SoftwareList.csv"
