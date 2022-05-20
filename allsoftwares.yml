@@ -1,22 +1,28 @@
 ---
-- name: Encrypt/Decrypt String
+- name: List all Softwares
   hosts: all
-  set_fact:
-    snames: [ 'Names' ]
-    sversions: [ 'Version' ]
-    shost: [ 'Host IP' ]
 
   tasks:
+  - name: Initialize empty lists to store software names, host ip, and versions
+    set_fact:
+      snames: [ 'Names' ]
+      sversions: [ 'Version' ]
+      shost: [ 'Host IP' ]
+      solist: []
+
   - name: List all software into the software variable in dictionary form
     yum:
       list: installed
     register: software
-    
-  - with_items: "{{ software | json_query('results[*]') }}"
+    set_facts:
+      solist: "{{ solist + [ software ] }}"
+
+  - with_x: "{{ solist }}"
+    with_items: "{{ x | json_query('results[*]') }}"
     set_fact:
-        snames: "{{ snames + [ item.name ] }}"
-        shost: "{{ shost + [ ansible_ssh_host ] }}"
-        sversions: "{{ sversions + [ item.version ] }}"
+      snames: "{{ snames + [ item.name ] }}"
+      shost: "{{ shost + [ ansible_ssh_host ] }}"
+      sversions: "{{ sversions + [ item.version ] }}"
 
   - name: combine name and version list and write into csv file on control node delegrate_to
     delegate_to: 192.168.56.102
