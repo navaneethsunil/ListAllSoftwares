@@ -13,9 +13,9 @@
   tasks:
   - name: Initialize empty lists to store software names, host ip, and versions
     set_fact:
-      snames: [ 'Names' ]
-      sversions: [ 'Version' ]
-      shost: [ '\\nHost IP' ]
+      snames: []
+      sversions: []
+      shost: []
 
   - name: List all software into the software variable in dictionary form
     yum:
