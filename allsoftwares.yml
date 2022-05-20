@@ -23,8 +23,8 @@
     
   - name: combine name and version list and write into csv file
     copy:
-      content: "{{ snames | zip(sversions) | map('join', ', ')  | join('\n') }}"
-      dest: "SoftwareListOn_{{ ansible_ssh_host }}.csv"
+      content: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
+      dest: "SoftwareList.csv"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
