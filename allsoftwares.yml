@@ -3,18 +3,16 @@
   hosts: all
 
   tasks:
-  - name: List all software into the software variable in dictionary form
-    yum:
-      list: installed
-    register: software
-    
   - name: Initialize empty lists to store software names, host ip, and versions
     set_fact:
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
       shost: [ 'Host IP' ]
 
-  - name: add software names, host ip, and versions to above mentioned lists
+  - name: List all software into the software variable in dictionary form
+    yum:
+      list: installed
+    register: software
     with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
@@ -26,12 +24,6 @@
     copy:
       content: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
       dest: "SoftwareList.csv"
-
-  - name: testing
-    delegate_to: 192.168.56.102
-    copy:
-      content: "{{ software }}"
-      dest: "host.xlsx"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
