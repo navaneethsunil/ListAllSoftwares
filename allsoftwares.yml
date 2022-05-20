@@ -1,6 +1,14 @@
 ---
 - name: List all Softwares
   hosts: all
+  vars:
+    uuids: |
+      {%- set o=[] %}
+      {%- for i in play_hosts %}
+        {%- if o.append(hostvars[i].uuid) %}
+        {%- endif %}
+      {%- endfor %}
+      {{ o }}
 
   tasks:
   - name: Initialize empty lists to store software names, host ip, and versions
@@ -20,18 +28,15 @@
       snames: "{{ snames + [ item.name ] }}"
       shost: "{{ shost + [ ansible_ssh_host ] }}"
       sversions: "{{ sversions + [ item.version ] }}"
-
-  - name: Register remote linux host with variable
-    add_host:
-        name: "192.168.1.41"
-        VAR_NEW: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
-
-- name: List all Softwares
-  hosts: 192.168.1.41
-  tasks:
-  - name: combine name and version list and write into csv file on control node delegrate_to
+      
+  - name: combine name, host ip, and version list into one variable
+    set_fact:
+        uuid: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
+        
+  - name: write list of softwares into excel files
+    delegate_to: 192.168.1.41
     copy:
-      content: "{{ hostvars['192.168.1.41']['VAR_NEW'] }}"
+      content: "{{ uuid }}"
       dest: "SoftwareList.csv"
 
   - debug:
