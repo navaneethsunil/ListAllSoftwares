@@ -1,6 +1,6 @@
 ---
 - name: Encrypt/Decrypt String
-  hosts: 192.168.56.102
+  hosts: all
 
   tasks:
   - name: List all software into the software variable in dictionary form
@@ -8,20 +8,20 @@
       list: installed
     register: software
     
-  - name: Initialize empty lists to store software names and versions
+  - name: Initialize empty lists to store software names, host ip, and versions
     set_fact:
       snames: [ 'Names' ]
       sversions: [ 'Version' ]
       shost: [ 'Host IP' ]
 
-  - name: add software names and versions to above mentioned lists
+  - name: add software names, host ip, and versions to above mentioned lists
     with_items: "{{ software | json_query('results[*]') }}"
     set_fact:
       snames: "{{ snames + [ item.name ] }}"
       shost: "{{ shost + [ ansible_ssh_host ] }}"
       sversions: "{{ sversions + [ item.version ] }}"
     
-  - name: combine name and version list and write into csv file
+  - name: combine name and version list and write into csv file on control node delegrate_to
     delegate_to: 192.168.56.102
     copy:
       content: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
