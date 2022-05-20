@@ -30,7 +30,7 @@
   - name: testing
     delegate_to: 192.168.56.102
     copy:
-      content: "{{ shost }}"
+      content: "{{ software }}"
       dest: "host.csv"
 
   - debug:
