@@ -35,7 +35,7 @@
  
   - name: Create the list
     set_fact: 
-      list_var1: "{{ uuids.split(',') }}"
+      list_var1: "{{ uuids.split('\n') }}"
 
   - name: write list of softwares into excel files
     delegate_to: 192.168.1.41
