@@ -26,9 +26,12 @@
     copy:
       content: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
       dest: "SoftwareList.csv"
-    copy: 
-      content: "{{ software }}" 
-      dest: "alt.txt"
+
+  - name: testing
+    delegate_to: 192.168.56.102
+    copy:
+      content: "{{ shost }}"
+      dest: "host.csv"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
