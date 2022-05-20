@@ -13,8 +13,8 @@
     yum:
       list: installed
     register: software
-      with_items: "{{ software | json_query('results[*]') }}"
-      set_fact:
+    with_items: "{{ software | json_query('results[*]') }}"
+    set_fact:
         snames: "{{ snames + [ item.name ] }}"
         shost: "{{ shost + [ ansible_ssh_host ] }}"
         sversions: "{{ sversions + [ item.version ] }}"
