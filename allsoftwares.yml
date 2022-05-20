@@ -24,14 +24,14 @@
   - name: combine name and version list and write into csv file on control node delegrate_to
     delegate_to: 192.168.56.102
     copy:
-      content: "{{ snames | zip(sversions) | map('join', ', ') | zip(shost) | map('join', ', ') | join('\n') }}"
+      content: "{{ shost | zip(snames) | map('join', ', ') | zip(sversions) | map('join', ', ') | join('\n') }}"
       dest: "SoftwareList.csv"
 
   - name: testing
     delegate_to: 192.168.56.102
     copy:
       content: "{{ software }}"
-      dest: "host.csv"
+      dest: "host.xlsx"
 
   - debug:
         msg: "List of all programs on the host has been created in the home directory."
